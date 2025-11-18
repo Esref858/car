@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoElite - Super Dəst</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* --- Dizayn (CSS) --- */
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #ffffff;
+            --text-secondary: #b0b0b0;
+            --accent: #ff3b30; 
+            --accent-hover: #d63027;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        header {
+            background-color: rgba(30, 30, 30, 0.9);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-decoration: none;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .hero h1 { color: var(--text-main); margin-bottom: 10px; }
+        .hero p { color: var(--text-secondary); }
+
+        /* Kartka tovarı */
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #333;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Slayder (Karusel) */
+        .carousel-inner {
+            height: 280px; /* **ОБНОВЛЕНО: Уменьшил высоту слайдера** */
+        }
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Сохраняет пропорции, обрезает лишнее */
+            object-position: center; /* **ОБНОВЛЕНО: Центрирует изображение** */
+        }
+
+        .product-info { padding: 30px; }
+
+        .product-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        /* Siyahı (7 əşya) */
+        .items-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+
+        .items-list li {
+            padding: 8px 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .items-list li::before {
+            content: "✔";
+            color: var(--accent);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .price { font-size: 1.8rem; font-weight: bold; color: #fff; }
+
+        .buy-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+        .buy-btn:hover { background-color: var(--accent-hover); }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo">AutoElite</div>
+            <div style="color: #b0b0b0;">📞<span id="display-phone"></span></div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Xüsusi Təklif</h1>
+            <p>Avtomobiliniz üçün lazım olan hər şey bir qutuda.</p>
+        </div>
+    </section>
+
+    <div class="container mb-5">
+        <div id="product-container">
+            </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 AutoElite.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // ==========================================
+        // НАСТРОЙКИ (МЕНЯЙ ТОЛЬКО ЗДЕСЬ)
+        // ==========================================
+
+        // 1. Твой номер телефона
+        const myPhoneNumber = "994103891914"; 
+        document.getElementById('display-phone').innerText = "+" + myPhoneNumber;
+
+        // 2. Данные о товаре
+        const product = {
+            // НАЗВАНИЕ ТОВАРА
+            title: "ULTRA KOMBO DƏST (7-si 1-də)", 
+            
+            // ЦЕНA
+            price: "150 AZN",
+            
+            // ОПИСАНИЕ
+            desc: "Avtomobiliniz üçün tam premium təchizat paketi. Hər bir detal xüsusi keyfiyyətlə seçilmişdir.",
+
+            // СПИСОК ПРЕДМЕТОВ (Названия 7 вещей внутри)
+            itemsList: [
+                "Kamera 3 birinin içində: Qabaq, Arxa, Salon (Full HD!)",
+                "Motorun çöl təmizləyicisi",
+                "Sit təmizləyici",
+                "Köpük çiləyici",
+                "5 litr köpük",
+                "Schratch Remover Flamingo (Cızıq silmək üçün)",
+            ],
+
+            // 7 КАРТИНОК (Вставь сюда свои ссылки)
+            // Рекомендация: используй картинки с соотношением сторон примерно 3:2 или 4:3 (например, 800x600, 900x600 пикселей)
+            // Это поможет им лучше вписаться в высоту 280px.
+            images: [
+                "WhatsApp Image 2025-11-18 at 20.58.47 (1).jpeg", // 1. Главное фото
+                "WhatsApp Image 2025-11-18 at 21.29.17.jpeg", // 2. Фото товара 1
+                "Screenshot 2025-11-18 221900.png", // 3. Фото товара 2
+                "Screenshot 2025-11-18 221925.png", // 4. Фото товара 3
+                "Screenshot 2025-11-18 221942.png", // 5. Фото товара 4
+                "WhatsApp Image 2025-11-18 at 21.29.17 (4).jpeg",     // 6. Фото товара 5
+                "WhatsApp Image 2025-11-18 at 21.29.17 (5).jpeg"    // 7. Фото товара 6
+            ]
+        };
+
+        // ==========================================
+        // НИЖЕ КОД НЕ ТРОГАЙ
+        // ==========================================
+
+        const container = document.getElementById('product-container');
+
+        // Генерация списка вещей
+        let itemsHtml = '<ul class="items-list">';
+        product.itemsList.forEach(item => {
+            itemsHtml += `<li>${item}</li>`;
+        });
+        itemsHtml += '</ul>';
+
+        // Генерация слайдов (картинок)
+        let carouselItems = '';
+        product.images.forEach((imgUrl, index) => {
+            const isActive = index === 0 ? 'active' : '';
+            carouselItems += `
+                <div class="carousel-item ${isActive}" style="height: 280px;">
+                    <img src="${imgUrl}" class="d-block w-100" alt="Slide ${index + 1}">
+                </div>
+            `;
+        });
+
+        // HTML карточки
+        const cardHtml = `
+            <div class="product-card">
+                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        ${carouselItems}
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">${product.title}</h3>
+                    <p style="text-align: center; color: #b0b0b0;">${product.desc}</p>
+                    
+                    ${itemsHtml}
+
+                    <div class="price-row">
+                        <span class="price">${product.price}</span>
+                        <button class="buy-btn" onclick="orderItem('${product.title}', '${product.price}')">Sifariş et</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = cardHtml;
+
+        // Логика WhatsApp
+        function orderItem(title, price) {
+            const text = `Salam! Mən sifariş etmək istəyirəm: ${title} (${price}). Çatdırılma varmı?`;
+            const waUrl = `https://wa.me/${myPhoneNumber}?text=${encodeURIComponent(text)}`;
+            window.open(waUrl, '_blank');
+        }
+    </script>
+</body>
+</html>
